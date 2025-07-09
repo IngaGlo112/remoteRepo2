@@ -12,7 +12,7 @@
   rdfs:label "GraphDB repository";
   config:rep.impl [
       config:rep.type "metaphactory:GraphDBRepository";
-      config:http.url <http://localhost:7200/repositories/metaphactory>;
+      config:http.url <http://localhost:7300/repositories/metaphactory>;
       mph:username "admin";
       mph:password "admin"
     ] .
