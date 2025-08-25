@@ -1,0 +1,104 @@
+<style>
+  .DataTable--noFilteredRows {
+    padding-left: 16px;
+  }
+  .importDialog .ErrorPresenter--firstLine {
+    font-weight: 500;
+  }
+</style>
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="{{page-publicPath}}/">Home</mp-link>
+  </li>
+  <li>
+    <semantic-link title="Assets" iri="http://www.metaphacts.com/resource/assets/">Assets</semantic-link>
+  </li>
+  {{#if (page-urlParam "ontologyIri")}}
+    <li>
+      <semantic-link title="Ontologies" iri="http://www.metaphacts.com/resource/assets/Ontologies">Ontologies</semantic-link>
+    </li>
+    <li>
+      <semantic-link iri='{{page-urlParam "ontologyIri"}}'></semantic-link>
+    </li>
+    <li class="active">Ontology Diagrams</li>
+  {{else}}
+
+    <li class="active">Diagrams</li>
+  {{/if}}
+</ol>
+<div class="page">
+  <div class="page__header">
+    <div class='page__header-thumbnail'>
+      <h2><span class="material-symbols-outlined">family_history</span></h2>
+    </div>
+    <div class='page__header-body'>
+      <h2 style="float:left;">Diagrams</h2>
+      <div class='pull-right' style='margin-right: 50px;'>
+        [[#if (hasPermission "api:ldp:container:<http://www.metaphacts.com/ontologies/platform#ontodiaDiagramContainer>:create:any")]]
+
+        <mp-overlay-dialog title="Import diagram" type="modal" bs-size="large" class="importDialog">
+          <mp-overlay-dialog-trigger>
+            <button class="btn btn-outline-primary me-2">
+              Import
+            </button>
+          </mp-overlay-dialog-trigger>
+          <mp-overlay-dialog-content>
+            {{> ::importDiagramDialog}}
+          </mp-overlay-dialog-content>
+        </mp-overlay-dialog>
+        <mp-event-proxy on-event-source='importDiagram' on-event-type='ImportDiagram.Completed' proxy-event-type='Component.Refresh' proxy-targets='["diagramsTable"]'></mp-event-proxy>
+
+        <mp-resource-link-container iri='{{rdf-resolvePrefix "Assets:OntodiaView"}}'>
+          <button class="btn btn-primary">
+            Create
+          </button>
+        </mp-resource-link-container>
+        [[else]]
+          <button class="btn btn-outline-primary me-2" disabled title='No permission to import diagrams.'>
+            Import
+          </button>
+          <button class="btn btn-primary" disabled title='No permission to create diagrams.'>
+            Create
+          </button>
+        [[/if]]
+      </div>
+    </div>
+  </div>
+  <div class='page__body'>
+    <mp-event-target-refresh id='diagramsTable'>
+      {{> Assets:OntodiaDiagramsTable}}
+    </mp-event-target-refresh>
+  <div>HERE IS A NEW DIV</div>
+  </div>
+</div>
+
+<template-fragment export id='importDiagramDialog'>
+  <mp-event-target-template-render id='importDialog' template='{{> t}}'>
+    <template id='t'>
+      {{#if imports}}
+        {{#bind success=(array-filter imports (func import import.success))}}
+          {{#if (cond-gt success.length 0)}}
+            <bs-alert variant='success' class='alert-icon fw-bold'>Diagrams from {{success.length}} file{{#if (cond-gt success.length 1)}}s{{/if}} were imported.</bs-alert>
+          {{/if}}
+        {{/bind}}
+        {{#bind errors=(array-filter imports (func import (cond-neq import.success true)))}}
+          {{#if (cond-gt errors.length 0)}}
+            <bs-alert variant='danger' class='alert-icon fw-bold'>
+              Diagrams from {{errors.length}} file{{#if (cond-gt errors.length 1)}}s{{/if}} were not imported.
+              {{#each errors as |error|}}
+                <mp-error error-message='{{pass-value error.error}}' headless></mp-error>
+              {{/each}}
+            </bs-alert>
+          {{/if}}
+        {{/bind}}
+        <mp-event-trigger type="Component.TemplateUpdate" targets='["importDialog"]'>
+          <button class="btn btn-secondary"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span> Back</button>
+        </mp-event-trigger>
+      {{else}}
+        <mp-import-diagram id='importDiagram' force=true container="http://www.metaphacts.com/ontologies/platform#ontodiaDiagramContainer"></mp-import-diagram>
+      {{/if}}
+      <mp-event-proxy on-event-source='importDiagram' on-event-type='ImportDiagram.Completed' proxy-event-type='Component.TemplateUpdate' proxy-targets='["importDialog"]'></mp-event-proxy>
+    </template>
+  </mp-event-target-template-render>
+</template-fragment>
+
