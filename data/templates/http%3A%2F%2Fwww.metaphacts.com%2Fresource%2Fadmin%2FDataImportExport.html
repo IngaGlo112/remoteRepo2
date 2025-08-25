@@ -1,0 +1,52 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="{{page-publicPath}}/">Home</mp-link>
+  </li>
+  <li>
+    <semantic-link title="Administration" iri='{{rdf-resolvePrefix "Admin:"}}'>Administration</semantic-link>
+  </li>
+  <li class="active">Data Import and Export</li>
+</ol>
+
+<style>
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
+  .switch-block {
+    display: flex;
+  }
+</style>
+
+<div class="page">
+  <div class="page__header">
+    <div class='page__header-thumbnail'>
+      <h2><span class="material-symbols-outlined">cloud_upload</span></h2>
+    </div>
+    <div class='page__header-body'>
+      <h2>Data Import and Export</h2>
+      <div>HALLO VON RUMTIME</div>
+    </div>
+  </div>
+  <div class='page__body'>
+    <div class="title">
+      <h2>Data Import</h2>
+      <div class="switch-block">
+        [[!-- Note: this is an internal component and not supported for general use. --]]
+        <mp-admin-repository-switch></mp-admin-repository-switch>
+      </div>
+    </div>
+    <hr/>
+	[[#if (hasPermission "sparql:graphstore:create")]]
+    <mp-rdf-upload></mp-rdf-upload>
+    <div>Data Upload via Drag &amp; Drop is limited in nature. Please refer to the <semantic-link iri='{{rdf-resolvePrefix "Help:DataLoading"}}'>data loading help</semantic-link> for details.</div>
+	[[else]]
+		<i>No permission for uploading or modifying data.</i>
+	[[/if]]
+
+
+    <h2>Data Export &amp; Deletion</h2>
+    <hr/>
+    {{> Assets:NamedGraphsInclude}}
+	</div>
+</div>
