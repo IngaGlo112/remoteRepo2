@@ -1,0 +1,47 @@
+<style>
+  .admin-icon-panel .material-symbols-outlined, .admin-icon-panel .mp-icon {
+    font-size: 60px;
+  }
+</style>
+
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="{{page-publicPath}}/">Home</mp-link>
+  </li>
+  <li class="active">Assets</li>
+  <p>HALLO</p>
+</ol>
+
+
+<div class="page">
+  <div class="page__header">
+    <div class='page__header-thumbnail'>
+      <h2><span class="material-symbols-outlined">layers</span></h2>
+    </div>
+    <div class='page__header-body'>
+      <h2>Assets</h2>
+      <span>You are in the “Assets” space. Here you find the collection of items that allow an expert user to define and inspect data models, data partitioning and data abstractions.</span>
+    <div>HERE IS A NEW DIV</div>
+    </div>
+  </div>
+  <div class='page__body'>
+    [[>Admin:IconPanelInclude title="Named Graphs" mpIcon="named_graph" pageLink=(resolvePrefix "Assets:NamedGraphs")]]
+
+    [[>Admin:IconPanelInclude title="Vocabularies" matIcon="text_fields" pageLink=(resolvePrefix "Assets:Vocabularies")]]
+
+    [[>Admin:IconPanelInclude title="Ontologies" matIcon="lan" pageLink=(resolvePrefix "Assets:Ontologies")]]
+
+    [[>Admin:IconPanelInclude title="Datasets" matIcon="folder" pageLink=(resolvePrefix "Assets:Datasets")]]
+
+    [[#if (hasPermission "api:ldp:container:<http://www.metaphacts.com/ontologies/platform#queryTemplateContainer>:read:any")]]
+      [[>Admin:IconPanelInclude title="Query Templates" matIcon="dynamic_form" pageLink="http://www.metaphacts.com/resource/assets/QueryTemplates"]]
+    [[/if]]
+    
+    
+  <div style="clear:both;"></div>
+    <hr>
+    [[#if (hasPermission "api:ldp:container:<http://www.metaphacts.com/ontologies/platform#ontodiaDiagramContainer>:read:any")]]
+      [[>Admin:IconPanelInclude title="Diagrams" matIcon="family_history" pageLink="http://www.metaphacts.com/resource/assets/Diagrams"]]
+    [[/if]]
+  </div>
+</div>
