@@ -1,0 +1,33 @@
+<style>
+  .admin-icon-panel .material-symbols-outlined, .admin-icon-panel .mp-icon {
+    font-size: 60px;
+  }
+</style>
+
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="{{page-publicPath}}/">Home</mp-link>
+  </li>
+  <li>
+    <semantic-link title='Administration' iri='http://www.metaphacts.com/resource/admin/'>Administration</semantic-link>
+  </li>
+  <li class="active">Knowledge Graph Settings</li>
+</ol>
+
+
+<div class="page">
+  <div class="page__header">
+    <div class='page__header-thumbnail'>
+      <h2><span class="mp-icon">kg_settings</span></h2>
+    </div>
+    <div class='page__header-body'>
+      <h2>Knowledge Graph Settings</h2>
+      <span>You are in the Administration space for the configuration of Knowledge Graph Settings</span>
+    </div>
+  </div>
+  <div class='page__body'>
+    [[>Admin:IconPanelInclude title="Ontology Management" matIcon="lan" pageLink=(resolvePrefix "Admin:OntologyManagementConfiguration")]]
+    [[>Admin:IconPanelInclude title="Vocabulary Management" matIcon="text_fields" pageLink=(resolvePrefix "Admin:VocabularyManagementConfiguration")]]
+    
+  </div>
+</div>
